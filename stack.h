@@ -4,30 +4,19 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define MAX 128
+#define MAX 256
+#define MAX_NAME_LEN 256;
 
-typedef struct StackOperatorType{
-    char items[MAX][3];
+typedef struct {
     int top;
-} StackOperator;
+    char items[MAX][MAX_NAME_LEN];
+} Stack;
 
-typedef struct StackOperandType{
-    int items[MAX];
-    int top;
-} StackOperand;
-
-void createStackOperator(StackOperator *stack);
-bool pushOperator(StackOperator *stack, const char* operator);
-bool popOperator(StackOperator *stack, char* operator);
-bool topOperator(StackOperator *stack, char* operator);
-bool StackOperatorEmpty(StackOperator *stack);
-bool StackOperatorFull(StackOperator *s);
-
-void createStackOperand(StackOperand *stack);
-bool pushOperand(StackOperand *stack, int operand);
-bool popOperand(StackOperand *stack, int *operand);
-bool topOperand(StackOperand *stack, int *operand);
-bool StackOperandEmpty(StackOperand *stack);
-bool StackOperandFull(StackOperand *stack);
+void createStack(Stack *s);
+bool push(Stack *s, const char* name);
+bool pop(Stack *s, char* name);
+bool topOfStack(Stack *s, char* name);
+bool StackEmpty(Stack *s, );
+bool StackFull(Stack *s);
 
 #endif

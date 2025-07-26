@@ -4,21 +4,20 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define MAXqueue 256
+#define MAX 256
+#define MAX_NAME_LEN 256
 
-typedef char str256[257];
-
-typedef struct QueueType{
-    str256 items[MAXqueue];
-    int head, tail, size; 
+typedef struct {
+    int head, tail, size;
+    char data[MAX][MAX_NAME_LEN];
 } Queue;
 
-void createQueue(Queue *queue);
-bool enqueue(Queue *queue, str256 token);
-bool dequeue(Queue *queue, str256 token);
-bool queueHead(Queue *queue, str256 token);
-bool queueTail(Queue *queue, str256 token);
-bool queueEmpty(Queue *queue);
-bool queueFull(Queue *queue);
+void createQueue(Queue *q);
+bool enqueue(Queue *q, const char* name);
+bool dequeue(Queue *q, char* name);
+bool queueHead(Queue *q, char* name);
+bool queueTail(Queue *q, char* name);
+bool queueEmpty(Queue *q);
+bool queueFull(Queue *q);
 
 #endif

@@ -1,69 +1,69 @@
 #include "queue.h"
 
-void createQueue(Queue *queue){
-    queue->head = 0;
-    queue->tail = 0;
-    queue->size = 0;
+void createQueue(Queue *q){
+    q->head = 0;
+    q->tail = 0;
+    q->size = 0;
 }
 
-bool enqueue(Queue *queue, str256 token){
+bool enqueue(Queue *q, const char* name){
     bool status = false;
-    if (queue->size < MAXqueue)
+    if (q->size < MAX)
     {
-        strcpy(queue->items[queue->tail], token);
-        queue->tail = (queue->tail + 1) % MAXqueue;
-        queue->size++;
+        strcpy(q->data[q->tail], name);
+        q->tail = (q->tail + 1) % MAX;
+        q->size++;
         status = !status;
     }
     return status;   
 }
 
-bool dequeue(Queue *queue, str256 token){
+bool dequeue(Queue *q, char* name){
     bool status = false;
-    if (queue->size > 0)
+    if (q->size > 0)
     {
-        strcpy(token, queue->items[queue->head]);
-        queue->head = (queue->head + 1) % MAXqueue;
-        queue->size--;
+        strcpy(name, q->data[q->head]);
+        q->head = (q->head + 1) % MAX;
+        q->size--;
         status = !status;
     }
     return status; 
 }
 
-bool queueHead(Queue *queue, str256 token){
+bool queueHead(Queue *q, char* name){
     bool status = false;
-    if (queue->size > 0)
+    if (q->size > 0)
     {
-        strcpy(token, queue->items[queue->head]);
+        strcpy(name, q->data[q->head]);
         status = !status;
     }
     return status;
 }
 
-bool queueTail(Queue *queue, str256 token){
+bool queueTail(Queue *q, char* name){
     bool status = false;
     int lastValidIndex;
-    if (queue->size > 0)
+    if (q->size > 0)
     {
-        lastValidIndex = (queue->tail - 1 + MAXqueue) % MAXqueue;
-        strcpy(token, queue->items[lastValidIndex]);
+        lastValidIndex = (q->tail - 1 + MAX) % MAX;
+        strcpy(name, q->data[lastValidIndex]);
         status = !status;
     }
     return status;
 }
 
-bool queueEmpty(Queue *queue){
+bool queueEmpty(Queue *q){
     bool status = false;
-    if (queue->size == 0)
+    if (q->size == 0)
     {
         status = !status;
     }
     return status;
 }
 
-bool queueFull(Queue *queue){
+bool queueFull(Queue *q){
     bool status = false;
-    if (queue->size == MAXqueue)
+    if (q->size == MAX)
     {
         status = !status;
     }
