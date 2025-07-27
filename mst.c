@@ -1,7 +1,5 @@
 #include "mst.h"
-
-
-void createMSTKruskals(Graph *g, int[] parent, Edge edges, Edge edges_mst){
+void createMSTKruskals(Graph *g, int parent[], Edge edges[], Edge edges_mst[]){
 
     // int parent[MAX_VERTICES]; // adjust size as needed
     // Edge edges[MAX_VERTICES * MAX_VERTICES];
@@ -44,14 +42,14 @@ void createMSTKruskals(Graph *g, int[] parent, Edge edges, Edge edges_mst){
             //adding to the new edge array
             strcpy(edges_mst[edges_mst_count].source, edges[o].source);
             strcpy(edges_mst[edges_mst_count].dest, edges[o].dest);
-            strcpy(edges_mst[edges_mst_count].weight, edges[o].weight);
+            edges_mst[edges_mst_count].weight = edges[o].weight;
             edges_mst_count++;
         }
     }
 }
 
 
-void printGraph(Graph *g, Edge edges_mst[]){
+void printGraph(Graph *g, Edge edges_mst[], int edges_mst_count){
 
     int l, i;
 
@@ -61,13 +59,13 @@ void printGraph(Graph *g, Edge edges_mst[]){
     //prints all the vertices
     printf("V = {");
     for(l=0;l<g->vertexCount;l++){
-        printf("%s, ",g[0]->vertices[l].name);
+        printf("%s, ",g->vertices[l].name);
     }
     printf("}");
 
     printf("E= {\n");
-        for(i=0;i<edges_mst.length;i++){
-            printf("(%s, %s, %d),\n",edges_mst[i].source,edges_mst[i].dest,edges_mst[i].weight )
+        for(i=0;i<edges_mst_count;i++){
+            printf("(%s, %s, %d),\n",edges_mst[i].source,edges_mst[i].dest,edges_mst[i].weight );
         }
     printf("}\n");
 }
@@ -120,7 +118,7 @@ void mergeSet(int p, int v){
 }
 
 //gets the index of the struct
-int getIndex(Graph *g, char *name) {
+int getMSTIndex(Graph *g, char *name) {
     for (int i = 0; i < g->vertexCount; i++) {
         if (strcmp(g->vertices[i].name, name) == 0) {
             return i;  // Found a match
