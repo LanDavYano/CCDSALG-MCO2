@@ -29,19 +29,23 @@ int main(){
         }
 
         if(input == 1){
-
             fscanf(stdin, "%s", vertexName);
             //adding the vertex
             addVertex(&g, vertexName);
         }else if(input == 2){
-
             fscanf(stdin, "%s", vertex_source);
             fscanf(stdin, "%s", vertex_dest);
             fscanf(stdin, "%d", edge_weight);
             //adding the edge
-            addEdge(&g, vertex_source,vertex_dest,edge_weight );
+            addEdge(&g, vertex_source,vertex_dest,edge_weight);
         }else if(input == 3){
-
+            fscanf(stdin, "%s", vertexName);
+            //getting the degree
+            checkDegree(&g, vertexName);
+        }else if(input == 4){
+            fscanf(stdin, "%s", vertex_source);
+            fscanf(stdin, "%s", vertex_dest);
+            checkEdge(&g,vertex_source,vertex_dest);
         }else if(input == 4){
             fscanf(stdin, "%s", vertex_source);
             fscanf(stdin, "%s", vertex_dest);
