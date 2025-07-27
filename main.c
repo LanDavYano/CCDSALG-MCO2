@@ -1,13 +1,15 @@
 #include "graph.h";
+#include "graphOpps.h"
 #include "stack.h";
 #include "queue.h";
+#include "mst.h"
 
 int main(){
 
     //initializing the graph
     Graph g;
     g.vertexCount = 0;
-    initialzeGraph(g);
+    initialzeGraph(&g);
 
     int input;
                 

@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "graphOpps.h"
+int parent[256];
 
 typedef struct {
     char source[50];
