@@ -190,7 +190,41 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex){
     } else {
         printf("0\n");
     }
-} // pcountAdjVert, sh all neighbors to stack
- }
-u}
+
+}
+
+
+
+function minSpanTree(Graph *g){
+    char adjacent[256][256];
+    char temp[256];
+    int adjacentCount;
+    int alreadyVisited;
+    int i, j;
+
+
+    /* Reset adjacentCount for each vertex */
+    adjacentCount = 0;
+    
+    /* Find all adjacent vertices that haven't been visited */
+    for (i = 0; i < g->vertexCount; i++) {
+        if (checkEdge(g, cur, g->vertices[i].name)) {
+            /* Check if already visited */
+            alreadyVisited = 0;
+            for (j = 0; j < visitedCount; j++) {
+                if (strcmp(visited[j], g->vertices[i].name) == 0) {
+                    alreadyVisited = 1;
+                    break;
+                } 
+            }
+            
+            /* If not visited, add to adjacent list */
+            if (!alreadyVisited) {
+                strcpy(adjacent[adjacentCount++], g->vertices[i].name);
+            }
+        }
+    }
+
+}
+
 
