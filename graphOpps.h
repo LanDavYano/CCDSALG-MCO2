@@ -7,9 +7,10 @@
 #include <stdio.h>
 
 void breadthFirst(const char* key, Graph *g);
+void depthFirst(Graph *g, const char* start);
+void pathCheck(Graph *g, const char* startVertex, const char* targetVertex);
+void minSpanTree();
+int shortestPath(Graph *g, const char* source, const char* destination);
 
-depthFirst();
-pathCheck()
-minSpanTree()
 
 #endif

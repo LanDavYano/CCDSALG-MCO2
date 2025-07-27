@@ -95,7 +95,7 @@ void depthFirst(Graph *g, const char* start){
     }
     
     // Create dfs stack
-    CreateStack(&dfsStack);
+    createStack(&dfsStack);
 
     // push the starting vertex to stack
     push(&dfsStack, g->vertices[startingIndex].name);
@@ -134,10 +134,11 @@ void depthFirst(Graph *g, const char* start){
         for (j = countAdjVert - 1; j >= 0; j--){
             push(&dfsStack, adjacentVertices[j]);
         }
-   
+    }
 }
 
-void pathCheck(Graph *g, const char* startVertex, const char* targetVertex){
+void pathCheck(Graph *g, const char* startVertex, const char* targetVertex)
+{
     int startingIndex, targetIndex, poppedIndex, i, marked[MAX_VERTICES] = {0};
     char popped[MAX];
     Stack stack;
@@ -147,7 +148,8 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex){
     startingIndex = getIndex(g, startVertex);
     targetIndex = getIndex(g, targetVertex);
 
-    if (startingIndex == -1 || targetIndex == -1){
+    if (startingIndex == -1 || targetIndex == -1)
+    {
         printf("0\n");
         return;
     }
@@ -159,38 +161,163 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex){
     push(&stack, g->vertices[startingIndex].name);
 
     // While search stack is not empty
-    while(!StackEmpty(&stack)){
+    while(!StackEmpty(&stack))
+    {
         // pop the stack
         pop(&stack, popped);
 
         // get the index of the popped one
         poppedIndex = getIndex(g, popped);
         // check if the index of the popped on deson't exist in the graph or the index was already marked
-        if (poppedIndex == -1 || marked[poppedIndex]){
+        if (poppedIndex == -1 || marked[poppedIndex])
+        {
             continue;// if true then continue to the next iteration
         }
 
         marked[poppedIndex] = 1;
         // check if the poppedIndex is already at the targetIndex
-        if (poppedIndex == targetIndex){
+        if (poppedIndex == targetIndex)
+        {
             found = true;
         }
         
         // check the neighbor 
-        for (i = 0; i < g->vertexCount; i++){
+        for (i = 0; i < g->vertexCount; i++)
+        {
             // check the one that are adjacent to the popped ones and check if it not marked
-            if (g->adj[poppedIndex][i] && !marked[i]){
+            if (g->adj[poppedIndex][i] && !marked[i])
+            {
                 // if adjacent and not marked then get that neighbor
                 push(&stack, g->vertices[i].name);
             }
         }
     }
-    if (found){
+
+    if (found)
+    {
         printf("1\n");
-    } else {
+    }
+    else
+    {
         printf("0\n");
     }
-} // pcountAdjVert, sh all neighbors to stack
- }
-u}
+} 
 
+
+
+
+int shortestPath(Graph *g, const char* source, const char* destination) {
+    int sourceIndex, destIndex, i, j, minIndex;
+    int dist[256];           /* Distance from source to each vertex */
+    int visited[256];        /* Track visited vertices */
+    int parent[256];         /* Track parent of each vertex for path reconstruction */
+    int minDist, currentDist;
+    char path[256][256];     /* Store the actual path */
+    int pathLength;
+    
+    sourceIndex = getIndex(g, source);
+    destIndex = getIndex(g, destination);
+    
+    if (sourceIndex == -1 || destIndex == -1) {
+        printf("Source or destination vertex not found\n");
+        return -1;
+    }
+
+    for (i = 0; i < g->vertexCount; i++) {
+        dist[i] = 256;     
+        visited[i] = 0;      
+        parent[i] = -1;        
+    }
+    
+    dist[sourceIndex] = 0;
+    
+    for (i = 0; i < g->vertexCount; i++) {
+        minDist = 256;
+        minIndex = -1;
+        
+        for (j = 0; j < g->vertexCount; j++) {
+            if (!visited[j] && dist[j] < minDist) {
+                minDist = dist[j];
+                minIndex = j;
+            }
+        }
+        
+        if (minIndex == -1) {
+            break;
+        }
+        
+        visited[minIndex] = 1;
+        
+        if (minIndex == destIndex) {
+            break;
+        }
+
+        for (j = 0; j < g->vertexCount; j++) {
+            if (g->adj[minIndex][j] && !visited[j]) {
+                currentDist = dist[minIndex] + g->weight[minIndex][j];
+        
+                if (currentDist < dist[j]) {
+                    dist[j] = currentDist;
+                    parent[j] = minIndex;  
+                }
+            }
+        }
+    }
+    
+    if (dist[destIndex] == 256) {
+        printf("No path found from %s to %s\n", source, destination);
+        return -1;
+    }
+    
+    /* Reconstruct the path */
+    pathLength = 0;
+    int current = destIndex;
+    
+    /* Build path backwards from destination to source */
+    while (current != -1) {
+        strcpy(path[pathLength], g->vertices[current].name);
+        pathLength++;
+        current = parent[current];
+    }
+    
+    /* Print the path in forward direction */
+    printf("%s", path[pathLength - 1]);  /* Start with source */
+    for (i = pathLength - 2; i >= 0; i--) {
+        printf(" -> %s", path[i]);
+    }
+    printf("; Total edge cost = %d\n", dist[destIndex]);
+    
+    return dist[destIndex];
+}
+
+function minSpanTree(Graph *g){
+    char adjacent[256][256];
+    char temp[256];
+    int adjacentCount;
+    int alreadyVisited;
+    int i, j;
+
+
+    /* Reset adjacentCount for each vertex */
+    adjacentCount = 0;
+
+    /* Find all adjacent vertices that haven't been visited */
+    for (i = 0; i < g->vertexCount; i++) {
+        if (checkEdge(g, cur, g->vertices[i].name)) {
+            /* Check if already visited */
+            alreadyVisited = 0;
+            for (j = 0; j < visitedCount; j++) {
+                if (strcmp(visited[j], g->vertices[i].name) == 0) {
+                    alreadyVisited = 1;
+                    break;
+                } 
+            }
+
+            /* If not visited, add to adjacent list */
+            if (!alreadyVisited) {
+                strcpy(adjacent[adjacentCount++], g->vertices[i].name);
+            }
+        }
+    }
+
+}
