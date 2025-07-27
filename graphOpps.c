@@ -3,12 +3,12 @@
 void breadthFirst(const char* key, Graph *g){
     Queue BFS;
     Queue search;
-    char visited[256][256];
+    char visited[MAX][MAX];
     int visitedCount = 0;
-    char cur[256];
-    char dequeued[256];
-    char adjacent[256][256];
-    char temp[256];
+    char cur[MAX];
+    char dequeued[MAX];
+    char adjacent[MAX][MAX];
+    char temp[MAX];
     int adjacentCount;
     int alreadyVisited;
     int i, j;
@@ -208,11 +208,11 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex)
 
 void shortestPath(Graph *g, const char* source, const char* dest) {
     int sourceIndex, destIndex, i, j, minIndex;
-    int dist[256];           /* Distance from source to each vertex */
-    int visited[256];        /* Track visited vertices */
-    int parent[256];         /* Track parent of each vertex for path reconstruction */
+    int dist[MAX];           /* Distance from source to each vertex */
+    int visited[MAX];        /* Track visited vertices */
+    int parent[MAX];         /* Track parent of each vertex for path reconstruction */
     int minDist, currentDist;
-    char path[256][256];     /* Store the actual path */
+    char path[MAX][MAX];     /* Store the actual path */
     int pathLength;
     
     sourceIndex = getIndex(g, source);
@@ -224,7 +224,7 @@ void shortestPath(Graph *g, const char* source, const char* dest) {
     }
 
     for (i = 0; i < g->vertexCount; i++) {
-        dist[i] = 256;     
+        dist[i] = MAX;     
         visited[i] = 0;      
         parent[i] = -1;        
     }
@@ -232,7 +232,7 @@ void shortestPath(Graph *g, const char* source, const char* dest) {
     dist[sourceIndex] = 0;
     
     for (i = 0; i < g->vertexCount; i++) {
-        minDist = 256;
+        minDist = MAX;
         minIndex = -1;
         
         for (j = 0; j < g->vertexCount; j++) {
@@ -264,7 +264,7 @@ void shortestPath(Graph *g, const char* source, const char* dest) {
         }
     }
     
-    if (dist[destIndex] == 256) {
+    if (dist[destIndex] == MAX) {
         printf("No path found from %s to %s\n", source, dest);
         return;
     }
