@@ -6,6 +6,8 @@
         "initializer_list": "c",
         "graph.h": "c",
         "algorithm": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "stack.h": "c",
+        "stdlib.h": "c"
     }
 }
