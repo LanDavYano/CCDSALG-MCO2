@@ -65,7 +65,7 @@ void printGraph(Graph *g, Edge edges_mst[], int edges_mst_count){
 
     printf("E= {\n");
         for(i=0;i<edges_mst_count;i++){
-            printf("(%s, %s, %d),\n",edges_mst[i].source,edges_mst[i].dest,edges_mst[i].weight );
+            printf("(%s, %s, %d),\n",edges_mst[i].source, edges_mst[i].dest, edges_mst[i].weight );
         }
     printf("}\n");
 }

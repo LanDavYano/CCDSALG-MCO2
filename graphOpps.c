@@ -160,7 +160,7 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex)
     // push the starting vertex to stack
     push(&stack, g->vertices[startingIndex].name);
 
-    // While search stack is not empty
+    // While stack is not empty
     while(!StackEmpty(&stack))
     {
         // pop the stack
@@ -203,9 +203,6 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex)
     }
 } 
 
-
-
-
 void shortestPath(Graph *g, const char* source, const char* dest) {
     int sourceIndex, destIndex, i, j, minIndex;
     int dist[MAX];           /* Distance from source to each vertex */
@@ -214,6 +211,7 @@ void shortestPath(Graph *g, const char* source, const char* dest) {
     int minDist, currentDist;
     char path[MAX][MAX];     /* Store the actual path */
     int pathLength;
+    int current;
     
     sourceIndex = getIndex(g, source);
     destIndex = getIndex(g, dest);
@@ -268,20 +266,25 @@ void shortestPath(Graph *g, const char* source, const char* dest) {
         printf("No path found from %s to %s\n", source, dest);
         return;
     }
+
+    if (minIndex == -1) {
+        printf("No path found from %s to %s\n", source, dest);
+        return;
+    }
     
-    /* Reconstruct the path */
+    // Reconstruct the path 
     pathLength = 0;
-    int current = destIndex;
+    current = destIndex;
     
-    /* Build path backwards from destination to source */
+    // Build path backwards from destination to source 
     while (current != -1) {
         strcpy(path[pathLength], g->vertices[current].name);
         pathLength++;
         current = parent[current];
     }
     
-    /* Print the path in forward direction */
-    printf("%s", path[pathLength - 1]);  /* Start with source */
+    // Print the path in forward direction 
+    printf("%s", path[pathLength - 1]);  // Start with source 
     for (i = pathLength - 2; i >= 0; i--) {
         printf(" -> %s", path[i]);
     }

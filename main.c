@@ -1,7 +1,5 @@
-#include "graph.h";
+#include "graph.h"
 #include "graphOpps.h"
-#include "stack.h";
-#include "queue.h";
 #include "mst.h"
 
 int main(){

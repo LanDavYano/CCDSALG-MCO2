@@ -10,7 +10,6 @@ typedef struct {
 } Edge;
 
 
-
 void createMSTKruskals(Graph *g, int parent[], Edge edges[], Edge edges_mst[]);
 void printGraph(Graph *g, Edge edges_mst[], int edges_mst_count);
 void edgeSorter(Edge edges[], int edgeCount);
