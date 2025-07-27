@@ -206,7 +206,7 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex)
 
 
 
-int shortestPath(Graph *g, const char* source, const char* destination) {
+int shortestPath(Graph *g, const char* source, const char* dest) {
     int sourceIndex, destIndex, i, j, minIndex;
     int dist[256];           /* Distance from source to each vertex */
     int visited[256];        /* Track visited vertices */
@@ -216,7 +216,7 @@ int shortestPath(Graph *g, const char* source, const char* destination) {
     int pathLength;
     
     sourceIndex = getIndex(g, source);
-    destIndex = getIndex(g, destination);
+    destIndex = getIndex(g, dest);
     
     if (sourceIndex == -1 || destIndex == -1) {
         printf("Source or destination vertex not found\n");
@@ -265,7 +265,7 @@ int shortestPath(Graph *g, const char* source, const char* destination) {
     }
     
     if (dist[destIndex] == 256) {
-        printf("No path found from %s to %s\n", source, destination);
+        printf("No path found from %s to %s\n", source, dest);
         return -1;
     }
     
@@ -288,36 +288,4 @@ int shortestPath(Graph *g, const char* source, const char* destination) {
     printf("; Total edge cost = %d\n", dist[destIndex]);
     
     return dist[destIndex];
-}
-
-function minSpanTree(Graph *g){
-    char adjacent[256][256];
-    char temp[256];
-    int adjacentCount;
-    int alreadyVisited;
-    int i, j;
-
-
-    /* Reset adjacentCount for each vertex */
-    adjacentCount = 0;
-
-    /* Find all adjacent vertices that haven't been visited */
-    for (i = 0; i < g->vertexCount; i++) {
-        if (checkEdge(g, cur, g->vertices[i].name)) {
-            /* Check if already visited */
-            alreadyVisited = 0;
-            for (j = 0; j < visitedCount; j++) {
-                if (strcmp(visited[j], g->vertices[i].name) == 0) {
-                    alreadyVisited = 1;
-                    break;
-                } 
-            }
-
-            /* If not visited, add to adjacent list */
-            if (!alreadyVisited) {
-                strcpy(adjacent[adjacentCount++], g->vertices[i].name);
-            }
-        }
-    }
-
 }

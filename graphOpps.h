@@ -5,6 +5,7 @@
 #include "stack.h"
 #include <stdlib.h>
 #include <stdio.h>
+int parent[256];
 
 void breadthFirst(const char* key, Graph *g);
 void depthFirst(Graph *g, const char* start);
