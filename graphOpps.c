@@ -202,7 +202,6 @@ function minSpanTree(Graph *g){
     int alreadyVisited;
     int i, j;
 
-
     /* Reset adjacentCount for each vertex */
     adjacentCount = 0;
     
