@@ -10,7 +10,7 @@
 void breadthFirst(const char* key, Graph *g);
 void depthFirst(Graph *g, const char* start);
 void pathCheck(Graph *g, const char* startVertex, const char* targetVertex);
-int shortestPath(Graph *g, const char* source, const char* destination);
+void shortestPath(Graph *g, const char* source, const char* destination);
 
 
 #endif

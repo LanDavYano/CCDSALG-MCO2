@@ -206,7 +206,7 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex)
 
 
 
-int shortestPath(Graph *g, const char* source, const char* dest) {
+void shortestPath(Graph *g, const char* source, const char* dest) {
     int sourceIndex, destIndex, i, j, minIndex;
     int dist[256];           /* Distance from source to each vertex */
     int visited[256];        /* Track visited vertices */
@@ -220,7 +220,7 @@ int shortestPath(Graph *g, const char* source, const char* dest) {
     
     if (sourceIndex == -1 || destIndex == -1) {
         printf("Source or destination vertex not found\n");
-        return -1;
+        return;
     }
 
     for (i = 0; i < g->vertexCount; i++) {
@@ -266,7 +266,7 @@ int shortestPath(Graph *g, const char* source, const char* dest) {
     
     if (dist[destIndex] == 256) {
         printf("No path found from %s to %s\n", source, dest);
-        return -1;
+        return;
     }
     
     /* Reconstruct the path */
@@ -287,5 +287,4 @@ int shortestPath(Graph *g, const char* source, const char* dest) {
     }
     printf("; Total edge cost = %d\n", dist[destIndex]);
     
-    return dist[destIndex];
 }
