@@ -1,0 +1,205 @@
+1 Sonic
+
+1 Knuckles
+
+1 Maria
+
+1 Shadow
+
+1 Tails
+
+1 Eggman
+
+2 Sonic Tails 10
+
+2 Knuckles Sonic 8
+
+2 Knuckles Tails 7
+
+2 Shadow Sonic 8
+
+2 Maria Shadow 10
+
+2 Eggman Shadow 1
+
+10
+
+3 Sonic
+
+3 Knuckles
+
+3 Tails
+
+3 Eggman
+
+3 Shadow
+
+4 Sonic Tails
+
+4 Maria Tails
+
+5 Sonic
+
+5 Eggman
+
+6 Sonic
+
+6 Eggman
+
+7 Shadow Eggman
+
+7 Eggman Sonic
+
+8
+
+9 Sonic Shadow
+
+9 Maria Knuckles
+
+1 Jordan
+
+1 Kobe
+
+1 Curry
+
+1 LeBron
+
+1 Luka
+
+1 Giannis
+
+1 Shaq
+
+2 Jordan Kobe 12
+
+2 Jordan Curry 7
+
+2 Kobe LeBron 5
+
+2 LeBron Luka 9
+
+2 Luka Curry 3
+
+2 Giannis Shaq 4
+
+2 Shaq Luka 8
+
+2 Giannis Jordan 10
+
+10
+
+3 Jordan
+
+3 Giannis
+
+3 Luka
+
+3 Curry
+
+4 Giannis Jordan
+
+4 Curry Kobe
+
+5 Jordan
+
+5 Giannis
+
+6 Jordan
+
+6 Shaq
+
+7 Kobe Luka
+
+7 Giannis Curry
+
+8
+
+1 StephCurry
+
+1 LukaDoncic
+
+1 KevinDurant
+
+1 KyrieIrving
+
+1 Jokic
+
+1 JimmyButler
+
+1 KlayThompson
+
+1 KawhiLeonard
+
+1 DamianLillard
+
+2 StephCurry KlayThompson 6
+
+2 LukaDoncic KyrieIrving 4
+
+2 Giannis JimmyButler 3
+
+2 KevinDurant KyrieIrving 5
+
+2 Jokic KawhiLeonard 7
+
+2 DamianLillard KlayThompson 8
+
+2 JimmyButler KawhiLeonard 6
+
+2 StephCurry LukaDoncic 7
+
+3 StephCurry
+
+3 KawhiLeonard
+
+3 KlayThompson
+
+3 Jokic
+
+4 StephCurry LukaDoncic
+
+4 Jokic KevinDurant
+
+4 JimmyButler KawhiLeonard
+
+4 Giannis KyrieIrving
+
+5 StephCurry
+
+5 LukaDoncic
+
+5 Jokic
+
+6 JimmyButler
+
+6 DamianLillard
+
+6 KawhiLeonard
+
+6 KlayThompson
+
+7 LukaDoncic JimmyButler
+
+7 StephCurry KawhiLeonard
+
+7 KyrieIrving DamianLillard
+
+7 Jokic Giannis
+
+8
+
+8
+
+10
+
+10
+
+9 StephCurry DamianLillard
+
+9 Giannis DamianLillard
+
+8
+
+10
+
+11
