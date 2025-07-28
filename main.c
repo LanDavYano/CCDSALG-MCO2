@@ -1,17 +1,17 @@
-#include "graph.h"
-#include "graphOpps.h"
-#include "mst.h"
+#include "graph.h";
+#include "stack.h";
+#include "queue.h";
 
 int main(){
 
     //initializing the graph
     Graph g;
     g.vertexCount = 0;
-    initialzeGraph(&g);
+    initialzeGraph(g);
 
     int input;
                 
-    //for command 1 & 4 AddVertex GetDegree
+    //for command 1 & 4 AddVertex GetDegree & BFS & DFS
     char vertexName[MAX_NAME_LEN];
 
     //for command 2 & 5 AddEdge CheckEdge 
@@ -45,11 +45,24 @@ int main(){
         }else if(input == 4){
             fscanf(stdin, "%s", vertex_source);
             fscanf(stdin, "%s", vertex_dest);
+            //edge checking
             checkEdge(&g,vertex_source,vertex_dest);
-        }else if(input == 4){
+        }else if(input == 5){
+
+            fscanf(stdin, "%d", edge_weight);
+            //BFS
+            breadthFirst(vertexName, &g);
+        }else if(input == 6){
+
+            fscanf(stdin, "%d", edge_weight);
+            //DFS
+            depthFirst(&g,vertexName);
+        }else if(input == 7){
+
             fscanf(stdin, "%s", vertex_source);
             fscanf(stdin, "%s", vertex_dest);
-            fscanf(stdin, "%d", edge_weight);
+            //edge checking
+            checkEdge(&g,vertex_source,vertex_dest);
         }
 
     }

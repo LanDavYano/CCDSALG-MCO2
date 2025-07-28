@@ -18,6 +18,13 @@ typedef struct {
     int vertexCount;
 } Graph;
 
+//need it for kruskals algoriothims
+typedef struct {
+    char source[50];
+    char dest[50];
+    int weight;
+} Edge;
+
 void initialzeGraph(Graph *g);
 int getIndex(Graph *g, const char* name);
 void addVertex(Graph *g, const char* name);
