@@ -4,21 +4,61 @@ int parent[256];  // Global variable definition
 
 int createMSTKruskal(Graph *g, int parentArray[], Edge edges[], Edge edges_mst[]){
 
-    // int parent[MAX_VERTICES]; // adjust size as needed
-    // Edge edges[MAX_VERTICES * MAX_VERTICES];
-
     //for the edge count
     int edgeCount = 0;
     //for the temp variable
     int edges_mst_count = 0;
 
-    for (int i = 0; i < g->vertexCount; i++) {
-        for (int j = i + 1; j < g->vertexCount; j++) {
+    char *u, *v;
+    int i,j;
+
+    char names[MAX_VERTICES][MAX_NAME_LEN], t[MAX_NAME_LEN];
+    Edge tmp;
+
+    // Copy vertex names
+    for (i = 0; i < g->vertexCount; i++) {
+        strcpy(names[i], g->vertices[i].name);
+    }
+
+    // Sort vertex names alphabetically
+    for (i = 0; i < g->vertexCount - 1; i++) {
+        for (j = i + 1; j < g->vertexCount; j++) {
+            if (strcmp(names[i], names[j]) > 0) {
+                strcpy(t, names[i]);
+                strcpy(names[i], names[j]);
+                strcpy(names[j], t);
+            }
+        }
+    }
+
+    // Extract and normalize edges (u < v) for consistent ordering
+    for (i = 0; i < g->vertexCount; i++) {
+        for (j = i + 1; j < g->vertexCount; j++) {
             if (g->adj[i][j]) {
-                strcpy(edges[edgeCount].source, g->vertices[i].name); // SOURCES
-                strcpy(edges[edgeCount].dest, g->vertices[j].name);   // DESTINATIONS
-                edges[edgeCount].weight = g->weight[i][j];            // WEIGHT
-                edgeCount++; 
+                u = g->vertices[i].name;
+                v = g->vertices[j].name;
+
+                if (strcmp(u, v) > 0) {
+                    strcpy(edges[edgeCount].source, v);
+                    strcpy(edges[edgeCount].dest, u);
+                } else {
+                    strcpy(edges[edgeCount].source, u);
+                    strcpy(edges[edgeCount].dest, v);
+                }
+
+                edges[edgeCount++].weight = g->weight[i][j];
+            }
+        }
+    }
+
+    // Sort edges lexicographically by (u, v)
+    for (i = 0; i < edgeCount - 1; i++) {
+        for (j = i + 1; j < edgeCount; j++) {
+            if (strcmp(edges[i].source, edges[j].source) > 0 ||
+                (strcmp(edges[i].source, edges[j].source) == 0 && strcmp(edges[i].dest, edges[j].dest) > 0)) {
+                tmp = edges[i];
+                edges[i] = edges[j];
+                edges[j] = tmp;
             }
         }
     }
@@ -27,7 +67,7 @@ int createMSTKruskal(Graph *g, int parentArray[], Edge edges[], Edge edges_mst[]
     edgeSorter(edges, edgeCount);
 
     //create the set of parents first to check if it creates a cycle
-    createSet(g->vertexCount);
+    createSet(parentArray, g->vertexCount);
 
     //now we build the MST
     for(int o = 0; o<edgeCount;o++){
@@ -35,23 +75,26 @@ int createMSTKruskal(Graph *g, int parentArray[], Edge edges[], Edge edges_mst[]
         //getting the index passing a 
         int s = getMSTIndex(g, edges[o].source);
         int d = getMSTIndex(g, edges[o].dest);
-        //find muna kung ano result ng findRoot
-        int rootS = findRoot(s);
-        int rootD = findRoot(d);
 
+        int rootS = findRoot(parentArray, s);
+        int rootD = findRoot(parentArray, d);
+   
         if(rootS != rootD){
             //adding the MST to the set
-            mergeSet(rootS,rootD);
+            mergeSet(parentArray, rootS,rootD);
+                        
             //adding to the new edge array
             strcpy(edges_mst[edges_mst_count].source, edges[o].source);
             strcpy(edges_mst[edges_mst_count].dest, edges[o].dest);
             edges_mst[edges_mst_count].weight = edges[o].weight;
+
+            //printf("THIS IS A PATH SOURCE %s DEST %s WEIGHT %d \n",edges_mst[edges_mst_count].source, edges_mst[edges_mst_count].dest,edges_mst[edges_mst_count].weight);
+
             edges_mst_count++;
         }
     }
     return edges_mst_count;
 }
-
 
 void printMSTGraph(Graph *g, Edge edges_mst[], int edges_mst_count){
 
@@ -87,73 +130,68 @@ void printMSTGraph(Graph *g, Edge edges_mst[], int edges_mst_count){
     }
     printf("}\n");
 
+    //print the edge to edge
     printf("E= {\n");
         for(i=0;i<edges_mst_count;i++){
             u = edges_mst[i].source;
-            v = edges_mst[i].dest;
+            v = edges_mst[i].dest; 
 
-            if (strcmp(u, v) > 0) {
-                temp = u;
-                u = v;
-                v = temp;
-            }    
+            printf("   (%s, %s, %d),\n", u, v, edges_mst[i].weight);
+            totalWeight += edges_mst[i].weight;
         }
-        if (i > 0){
-            printf(",\n");
-        }
-        printf("   (%s, %s, %d)", u, v, edges_mst[i].weight);
-        totalWeight += edges_mst[i].weight;
-        
+
     printf("}\n");
     printf("Total Edge Weight: %d\n", totalWeight);
 }
 
-// sorting the edge by weight and lexicographically source first
 void edgeSorter(Edge edges[], int edgeCount) {
-    for (int i = 0; i < edgeCount - 1; i++) {
-        for (int j = 0; j < edgeCount - i - 1; j++) {
-            //sort by weight first
-            if (edges[j].weight > edges[j + 1].weight) {
+    int i, j;
+
+    for (i = 0; i < edgeCount - 1; i++) {
+        for (j = 0; j < edgeCount - i - 1; j++) {
+            //Sort by source
+            if (strcmp(edges[j].source, edges[j + 1].source) > 0) {
                 Edge temp = edges[j];
                 edges[j] = edges[j + 1];
                 edges[j + 1] = temp;
 
-            } else if (edges[j].weight == edges[j + 1].weight) {
-
-                //if its the same weight check if the source is greater than the edge
-                if (strcmp(edges[j].source, edges[j + 1].source) > 0) {
-                    Edge temp = edges[j];
-                    edges[j] = edges[j + 1];
-                    edges[j + 1] = temp;
-                }
+            } else if (strcmp(edges[j].source, edges[j + 1].source) == 0 && strcmp(edges[j].dest, edges[j + 1].dest) > 0) {
+                Edge temp = edges[j];
+                edges[j] = edges[j + 1];
+                edges[j + 1] = temp;
             }
-
         }
     }
 }
 
-
 // CREATING THE SET 
-void createSet(int vertexCount) {
+void createSet(int parentArray[], int vertexCount) {
     for (int k = 0; k < vertexCount; k++) {
-        parent[k] = k;
+        parentArray[k] = k;
     }
 }
 
 // returning the root of the one you are adding to
-int findRoot(int x){
-    if (x < 0 || x >= MAX_VERTICES) return -1;  
-    if(parent[x] != x){
-        return findRoot(parent[x]);
+int findRoot(int parentArray[], int x) {
+    if (parentArray[x] != x) {
+        parentArray[x] = findRoot(parentArray, parentArray[x]);
     }
-    return x;
-}
-//merging the set/adding it to the MST
-void mergeSet(int p, int v){
-    parent[p] = v;
+    return parentArray[x];
 }
 
+// void mergeSet(int parentArray[], int rootA, int rootB) {
+//     parentArray[rootB] = rootA;  // directly merge rootB into rootA
+// }
+
 //gets the index of the struct
+void mergeSet(int parentArray[], int rootA, int rootB) {
+    if (rootA < rootB)
+        parentArray[rootB] = rootA;
+    else
+        parentArray[rootA] = rootB;
+}
+
+
 int getMSTIndex(Graph *g, char *name) {
     for (int i = 0; i < g->vertexCount; i++) {
         if (strcmp(g->vertices[i].name, name) == 0) {
