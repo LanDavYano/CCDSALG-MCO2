@@ -67,20 +67,21 @@ int checkEdge(Graph *g, const char* source, const char* dest)
     return (g->adj[i][j] == 1 && g->adj[j][i] == 1) ? 1 : 0;
 }
 
-void printGraph(Graph *g){
-    
-    int j, i, edgeCount = 0;
+void printGraph(Graph *g) {
+    int i, j, edgeCount = 0;
     char *u, *v;
     char names[MAX_VERTICES][MAX_NAME_LEN], t[MAX_NAME_LEN];
     Edges tmp, edges[MAX_VERTICES];
 
-    for (i = 0; i < g->vertexCount; i++){
+    // Copy vertex names
+    for (i = 0; i < g->vertexCount; i++) {
         strcpy(names[i], g->vertices[i].name);
     }
 
-    for (i = 0; i < g->vertexCount - 1; i++){
-        for (j = i + 1; j < g->vertexCount; j++){
-            if(strcmp(names[i], names[j]) > 0) {
+    // Sort vertex names alphabetically
+    for (i = 0; i < g->vertexCount - 1; i++) {
+        for (j = i + 1; j < g->vertexCount; j++) {
+            if (strcmp(names[i], names[j]) > 0) {
                 strcpy(t, names[i]);
                 strcpy(names[i], names[j]);
                 strcpy(names[j], t);
@@ -88,9 +89,10 @@ void printGraph(Graph *g){
         }
     }
 
-        for(i=0; i < g->vertexCount; i++){
-            for(j = i + 1; j < g->vertexCount; j++){
-                if (g->adj[i][j]) {  
+    // Extract and normalize edges (u < v) for consistent ordering
+    for (i = 0; i < g->vertexCount; i++) {
+        for (j = i + 1; j < g->vertexCount; j++) {
+            if (g->adj[i][j]) {
                 u = g->vertices[i].name;
                 v = g->vertices[j].name;
 
@@ -107,9 +109,11 @@ void printGraph(Graph *g){
         }
     }
 
-    for (i = 0; i < g->vertexCount - 1; i++){
-        for (j = i + 1; j < g->vertexCount; j++){
-            if (strcmp(edges[i].u, edges[j].u) > 0 || (strcmp(edges[i].u, edges[j].u) == 0 && strcmp(edges[i].v, edges[j].v) > 0)){
+    // Sort edges lexicographically by (u, v)
+    for (i = 0; i < edgeCount - 1; i++) {
+        for (j = i + 1; j < edgeCount; j++) {
+            if (strcmp(edges[i].u, edges[j].u) > 0 ||
+                (strcmp(edges[i].u, edges[j].u) == 0 && strcmp(edges[i].v, edges[j].v) > 0)) {
                 tmp = edges[i];
                 edges[i] = edges[j];
                 edges[j] = tmp;
@@ -138,5 +142,5 @@ void printGraph(Graph *g){
             printf(",\n");
         }
     }
-    printf(",\n}\n");
+    printf("\n}\n");
 }
