@@ -1,5 +1,4 @@
 #include "graphOpps.h"
-int parent[256];
 
 void breadthFirst(const char* key, Graph *g){
     Queue BFS;
