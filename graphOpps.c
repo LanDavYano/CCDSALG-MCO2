@@ -1,4 +1,5 @@
 #include "graphOpps.h"
+int parent[256];
 
 void breadthFirst(const char* key, Graph *g){
     Queue BFS;
@@ -315,4 +316,5 @@ void shortestPath(Graph *g, const char* source, const char* dest){
         printf(" -> %s", path[i]);
     }
     printf("; Total edge cost = %d\n", dist[destIndex]);
+    
 }

@@ -1,6 +1,6 @@
-#include "graph.h"
-#include "graphOpps.h"
-#include "mst.h"
+#include "graph.h";
+#include "stack.h";
+#include "queue.h";
 
 int main(){
 
@@ -10,7 +10,7 @@ int main(){
 
     int input;
                 
-    //for command 1 & 4 AddVertex GetDegree
+    //for command 1 & 4 AddVertex GetDegree & BFS & DFS
     char vertexName[MAX_NAME_LEN];
 
     //for command 2 & 5 AddEdge CheckEdge 

@@ -18,6 +18,13 @@ typedef struct {
     int vertexCount;
 } Graph;
 
+//need it for kruskals algoriothims
+typedef struct {
+    char source[50];
+    char dest[50];
+    int weight;
+} Edge;
+
 typedef struct {
     char u[MAX_NAME_LEN], v[MAX_NAME_LEN];
     int weight;
