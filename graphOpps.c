@@ -137,8 +137,7 @@ void depthFirst(Graph *g, const char* start){
     }
 }
 
-void pathCheck(Graph *g, const char* startVertex, const char* targetVertex)
-{
+void pathCheck(Graph *g, const char* startVertex, const char* targetVertex){
     int startingIndex, targetIndex, poppedIndex, i, marked[MAX_VERTICES] = {0};
     char popped[MAX];
     Stack stack;
@@ -203,15 +202,16 @@ void pathCheck(Graph *g, const char* startVertex, const char* targetVertex)
     }
 } 
 
-void shortestPath(Graph *g, const char* source, const char* dest) {
-    int sourceIndex, destIndex, i, j, minIndex;
-    int dist[MAX];           /* Distance from source to each vertex */
-    int visited[MAX];        /* Track visited vertices */
-    int parent[MAX];         /* Track parent of each vertex for path reconstruction */
-    int minDist, currentDist;
-    char path[MAX][MAX];     /* Store the actual path */
+void shortestPath(Graph *g, const char* source, const char* dest){
+    int sourceIndex, destIndex, i, j;
+    int dist[MAX_VERTICES];               
+    int parent[MAX_VERTICES];         
+    char path[MAX_VERTICES][MAX_NAME_LEN];   
     int pathLength;
     int current;
+    MinHeap heap;
+    node currentNode;
+    const int INFINITY = 999999;  
     
     sourceIndex = getIndex(g, source);
     destIndex = getIndex(g, dest);
@@ -221,57 +221,83 @@ void shortestPath(Graph *g, const char* source, const char* dest) {
         return;
     }
 
+    // Initialize distances and parent array
     for (i = 0; i < g->vertexCount; i++) {
-        dist[i] = MAX;     
-        visited[i] = 0;      
+        dist[i] = INFINITY;      
         parent[i] = -1;        
     }
-    
+
+    // Distance from source to itself is 0
     dist[sourceIndex] = 0;
-    
+
+    // Create heap and add all vertices
+    createHeap(&heap);
     for (i = 0; i < g->vertexCount; i++) {
-        minDist = MAX;
-        minIndex = -1;
-        
-        for (j = 0; j < g->vertexCount; j++) {
-            if (!visited[j] && dist[j] < minDist) {
-                minDist = dist[j];
-                minIndex = j;
-            }
-        }
-        
-        if (minIndex == -1) {
-            break;
-        }
-        
-        visited[minIndex] = 1;
-        
-        if (minIndex == destIndex) {
+        currentNode.index = i;
+        currentNode.weight = dist[i];
+        addNode(&heap, currentNode);
+    }
+
+    // Dijkstra's algorithm with heap
+    while(!isHeapEmpty(&heap)) {
+        // Get the node with minimum distance from heap
+        currentNode = getMin(&heap);
+        int indexOfCurrent = currentNode.index;
+
+        // If we reached the destination, we can stop
+        if (indexOfCurrent == destIndex) {
             break;
         }
 
+        // If distance is infinity, remaining vertices are unreachable
+        if (dist[indexOfCurrent] == INFINITY) {
+            break;
+        }
+
+        // Update distances to adjacent vertices
         for (j = 0; j < g->vertexCount; j++) {
-            if (g->adj[minIndex][j] && !visited[j]) {
-                currentDist = dist[minIndex] + g->weight[minIndex][j];
-        
-                if (currentDist < dist[j]) {
-                    dist[j] = currentDist;
-                    parent[j] = minIndex;  
+            // Check if there's an edge and vertex j is still in heap
+            if (g->adj[indexOfCurrent][j] && nodeExist(&heap, j))
+            {
+                int distNew = dist[indexOfCurrent] + g->weight[indexOfCurrent][j];
+
+                // If new path is shorter, update distance and parent
+                if (distNew < dist[j]) {
+                    dist[j] = distNew;
+                    parent[j] = indexOfCurrent;
+                    
+                    // Update the heap by finding and updating the node
+                    for (i = 0; i < heap.heapSize; i++) {
+                        if (heap.heapData[i].index == j) {
+                            heap.heapData[i].weight = distNew;
+                            
+                            // Bubble up to maintain heap property
+                            int currentIdx = i;
+                            while (currentIdx > 0) {
+                                int parentIdx = (currentIdx - 1) / 2;
+                                if (heap.heapData[parentIdx].weight <= heap.heapData[currentIdx].weight) {
+                                    break; // Heap property satisfied
+                                }
+                                // Swap with parent
+                                node temp = heap.heapData[currentIdx];
+                                heap.heapData[currentIdx] = heap.heapData[parentIdx];
+                                heap.heapData[parentIdx] = temp;
+                                currentIdx = parentIdx;
+                            }
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
     
-    if (dist[destIndex] == MAX) {
+    // Check if path exists
+    if (dist[destIndex] == INFINITY) {
         printf("No path found from %s to %s\n", source, dest);
         return;
     }
 
-    if (minIndex == -1) {
-        printf("No path found from %s to %s\n", source, dest);
-        return;
-    }
-    
     // Reconstruct the path 
     pathLength = 0;
     current = destIndex;
@@ -289,5 +315,4 @@ void shortestPath(Graph *g, const char* source, const char* dest) {
         printf(" -> %s", path[i]);
     }
     printf("; Total edge cost = %d\n", dist[destIndex]);
-    
 }

@@ -6,8 +6,7 @@ int main(){
 
     //initializing the graph
     Graph g;
-    g.vertexCount = 0;
-    initialzeGraph(&g);
+    initializeGraph(&g);
 
     int input;
                 
@@ -18,41 +17,73 @@ int main(){
     char vertex_source[MAX_NAME_LEN];
     char vertex_dest[MAX_NAME_LEN];
     int edge_weight;
+    int edge;
 
+    while(fscanf(stdin, "%d", &input) == 1){
+        switch(input){
+            case 1:
+                fscanf(stdin, "%s", vertexName);
+                //adding the vertex
+                addVertex(&g, vertexName);
+                printf("\n");
+                break;
+            
+            case 2:
+                fscanf(stdin, "%s %s %d", vertex_source, vertex_dest, &edge_weight);
+                addEdge(&g, vertex_source, vertex_dest, edge_weight);
+                printf("\n");
+                break;
 
+            case 3:
+                fscanf(stdin, "%s", vertexName);
+                checkDegree(&g, vertexName);
+                printf("\n\n");
+                break;
+            
+            case 4:
+                fscanf(stdin, "%s %s", vertex_source, vertex_dest);
+                edge = checkEdge(&g,vertex_source,vertex_dest);
+                printf("%d", edge);
+                printf("\n\n");
+                break;
 
-    printf("Enter a command: ");
-    while(fscanf("%d",&input) == 1){
+            case 5:
+                fscanf(stdin, "%s", vertex_source);
+                breadthFirst(vertex_source, &g);
+                printf("\n");
+                break;
 
-        if(input == 11){
-            continue;
+            case 6:
+                fscanf(stdin, "%s", vertex_source);
+                depthFirst(&g, vertex_source);
+                printf("\n");
+                break;
+
+            case 7:
+                fscanf(stdin, "%s %s", vertex_source, vertex_dest);
+                pathCheck(&g, vertex_source, vertex_dest);
+                printf("\n");
+                break;
+
+            case 8:
+                kruskalMST(&g);
+                printf("\n");
+                break;
+
+            case 9:
+                fscanf(stdin, "%s %s", vertex_source, vertex_dest);
+                shortestPath(&g, vertex_source, vertex_dest);
+                printf("\n");
+                break;
+
+            case 10:
+                printGraph(&g);
+                printf("\n");
+                break;
+
+            case 11:
+                return 0;
         }
-
-        if(input == 1){
-            fscanf(stdin, "%s", vertexName);
-            //adding the vertex
-            addVertex(&g, vertexName);
-        }else if(input == 2){
-            fscanf(stdin, "%s", vertex_source);
-            fscanf(stdin, "%s", vertex_dest);
-            fscanf(stdin, "%d", edge_weight);
-            //adding the edge
-            addEdge(&g, vertex_source,vertex_dest,edge_weight);
-        }else if(input == 3){
-            fscanf(stdin, "%s", vertexName);
-            //getting the degree
-            checkDegree(&g, vertexName);
-        }else if(input == 4){
-            fscanf(stdin, "%s", vertex_source);
-            fscanf(stdin, "%s", vertex_dest);
-            checkEdge(&g,vertex_source,vertex_dest);
-        }else if(input == 4){
-            fscanf(stdin, "%s", vertex_source);
-            fscanf(stdin, "%s", vertex_dest);
-            fscanf(stdin, "%d", edge_weight);
-        }
-
     }
-
     return 0;
 }
